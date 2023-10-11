@@ -6,27 +6,43 @@
     <title>Game Application</title>
 </head>
 <body>
+
+    <!-- A canvas , where we can draw things -->
+
     <canvas id="canvas" width="256" height="256">
 
     </canvas>
+
+    <!-- script -->
+
+
 
     <script type="module">
 
         const canvas  = document.getElementById("canvas");
 
+        // setup for drawing (context)something on the canvas (empty sheet)
         const abc = canvas.getContext("2d" , {alpha:false});
 
+        // this is the arrow for playing the game
         const dirs = {ArrowRight:[1,0], ArrowLeft:[-1,0], ArrowDown:[0,1], ArrowUp:[0,-1]};
 
 
+        // to tell the position of the snake on the canvas
         let snake = [[8,8]];
+
+               // to tell the position of the apple on the canvas for the snake
         let apple = [4,4];
+
+        // this positions the snake from the right hand side
         let dir =  [1,0] ;
 
 
+        // this listen to the event performed
         window.addEventListener("keydown", (e) =>{
             const newDir = dirs[e.key];
 
+            // to set a new direction
             if(newDir){
                 if(dir[0] + newDir[0] !==0 || dir[1] + newDir[1] !==0){
 
@@ -39,8 +55,15 @@
         });
 
 
+        // to setup  a timer that runs a function in milliseconds
+
         setInterval(()=> {
             snake.unshift([(snake [0][0] +dir[0] + 16) %16, (snake[0][1] + dir[1] + 16)  % 16]);
+
+
+            if (snake.slice(1).some (seg => seg[0] === snake[0][0] && seg [1] === snake[0] [1])){
+                window.alert("Game Over")
+            } else
 
             if(snake[0][0] === apple[0] && snake[0][1] === apple[1]){
                 do{
