@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Application</title>
+</head>
+<body>
+    <canvas id="canvas" width="256" height="256">
+
+    </canvas>
+
+    <script type="module">
+
+        const canvas  = document.getElementById("canvas");
+
+        const abc = canvas.getContext("2d" , {alpha:false});
+
+        const dirs = {ArrowRight:[1,0], ArrowLeft:[-1,0], ArrowDown:[0,1], ArrowUp:[0,-1]};
+
+
+        let snake = [[8,8]];
+        let apple = [4,4];
+        let dir =  [1,0] ;
+
+
+        window.addEventListener("keydown", (e) =>{
+            const newDir = dirs[e.key];
+
+            if(newDir){
+                if(dir[0] + newDir[0] !==0 || dir[1] + newDir[1] !==0){
+
+                dir = newDir;
+
+
+
+                }
+            }
+        });
+
+
+        setInterval(()=> {
+            snake.unshift([(snake [0][0] +dir[0] + 16) %16, (snake[0][1] + dir[1] + 16)  % 16]);
+
+            if(snake[0][0] === apple[0] && snake[0][1] === apple[1]){
+                do{
+                    apple = [Math.floor(Math.random() *16),
+                    Math.floor(Math.random() *16), ];
+                } 
+                    while(snake.some(seg => seg [0] ===  apple[0]  && seg[1] === apple [1]));
+
+
+            }   else{
+                snake.pop();
+            }
+
+            abc.clearRect(0,0,256,256);
+            abc.fillStyle = "red";
+            abc.fillRect(apple[0] * 16, apple[1] *16,16,16);
+            abc.fillStyle = "white";
+            snake.forEach(([x,y])  =>  abc.fillRect(x * 16 , y * 16,16,16));
+
+            
+        },350);
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    </script>
+</body>
+</html>
